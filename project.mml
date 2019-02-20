@@ -1500,7 +1500,8 @@ Layer:
               'military_'|| CASE WHEN military IN ('bunker') THEN military ELSE NULL END,
               'highway_'|| CASE WHEN highway IN ('bus_stop', 'elevator', 'traffic_signals') THEN highway ELSE NULL END,
               'power_' || CASE WHEN power IN ('generator') THEN power ELSE NULL END,
-              'tourism_' || CASE WHEN tourism IN ('viewpoint') THEN tourism ELSE NULL END
+              'tourism_' || CASE WHEN tourism IN ('viewpoint') THEN tourism ELSE NULL END,
+              'tourism_' || CASE WHEN tags->'attraction' IN ('big_wheel') THEN 'big_wheel' ELSE NULL END
             ) AS feature,
             access,
             religion,
@@ -1569,6 +1570,7 @@ Layer:
             OR military IN ('bunker')
             OR highway IN ('bus_stop', 'elevator', 'traffic_signals')
             OR (power = 'generator' AND tags @> '"generator:source"=>wind')
+            OR tags->'attraction' IN ('big_wheel')
           ORDER BY way_area desc
         ) AS amenity_points_poly
     properties:
@@ -2159,7 +2161,8 @@ Layer:
                                        OR (boundary = 'protected_area' AND tags->'protect_class' IN ('1','1a','1b','2','3','4','5','6','7','97','98','99'))
                                        THEN boundary ELSE NULL END,
               'waterway_' || CASE WHEN waterway IN ('dam', 'dock') THEN waterway ELSE NULL END,
-              'tourism_' || CASE WHEN tourism IN ('viewpoint', 'attraction') THEN tourism ELSE NULL END
+              'tourism_' || CASE WHEN tourism IN ('viewpoint', 'attraction') THEN tourism ELSE NULL END,
+              'tourism_' || CASE WHEN tags->'attraction' IN ('big_wheel') THEN tourism ELSE NULL END
             ) AS feature,
             access,
             CONCAT(
@@ -2213,6 +2216,7 @@ Layer:
               OR amenity IS NOT NULL -- skip checking a huge list and use a null check
               OR (tags->'healthcare') IS NOT NULL
               OR tags->'advertising' IN ('column')
+              OR tags->'attraction' IN ('big_wheel')
               OR shop IS NOT NULL
               OR (tags->'office') IS NOT NULL
               OR leisure IS NOT NULL

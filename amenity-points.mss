@@ -927,6 +927,13 @@
     marker-clip: false;
   }
 
+  [feature = 'tourism_big_wheel'][zoom >= 15] {
+    marker-file: url('symbols/tourism/big_wheel.svg');
+    marker-placement: interior;
+    marker-fill: @tourism;
+    marker-clip: false;
+  }
+
   [feature = 'man_made_water_tower'][zoom >= 17] {
     marker-file: url('symbols/man_made/water_tower.svg');
     marker-fill: @man-made-icon;
@@ -3281,7 +3288,8 @@
     text-placement: interior;
   }
 
-  [feature = 'tourism_attraction'][zoom >= 17][is_building = 'no'] {
+  [feature = 'tourism_attraction'][zoom >= 17][is_building = 'no'],
+  [feature = 'tourism_big_wheel'][zoom >= 17] {
     text-name: "[name]";
     text-size: @standard-font-size;
     text-wrap-width: @standard-wrap-width;
